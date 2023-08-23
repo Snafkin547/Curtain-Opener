@@ -2,6 +2,7 @@ int rfPin = 7;       // Pin where RF receiver data pin is connected
 int stepPin = 8;     // Pin connected to STEP on DRV8825
 int dirPin = 9;      // Pin connected to DIR on DRV8825
 bool previousState = LOW; // Previous state of the RF button, default to LOW
+bool upOrDown = true; // Previous direction
 
 void setup() {
   pinMode(rfPin, INPUT);
@@ -24,7 +25,13 @@ void loop() {
   }
 
   if(currentState == HIGH) {
-    digitalWrite(dirPin, HIGH); // Define rotation direction
+    if(upOrDown == true){
+      digitalWrite(dirPin, HIGH); // Rotate in one direction
+    }
+    else {
+      digitalWrite(dirPin, LOW); // Rotate in the opposite direction
+    }
+
     digitalWrite(stepPin, HIGH); // Make a step
     delay(1); 
     digitalWrite(stepPin, LOW); // Turn off step
